@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_maps/homepage.dart';
 import 'package:flutter_maps/pages/root_page.dart';
 import 'package:flutter_maps/services/authentication.dart';
 import 'package:flutter_maps/sharemap.dart';
@@ -201,7 +202,14 @@ class _MyHomePageState extends State<MyHomePage> {
   share() async {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => SharemapPage()),
+    MaterialPageRoute(builder: (context) => SharemapPage(userId: widget.userId,)),
+  );
+   
+  }
+  list() async {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => MyListPage(userid: widget.userId,)),
   );
    
   }
@@ -219,7 +227,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 new FlatButton(
                 child: new Text('Share',
                     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-                onPressed: share)
+                onPressed: share),
+                new FlatButton(
+                child: new Text('List',
+                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                onPressed: list)
           ],
         ),
       

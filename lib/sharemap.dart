@@ -19,7 +19,7 @@ SharemapPage({Key key, this.userId})
 }
 
 class _SharemapPageState extends State<SharemapPage> {
-  List<LocationDataNew> _locationList;
+  List _locationList;
     final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   StreamSubscription _locationSubscription;
@@ -56,24 +56,38 @@ class _SharemapPageState extends State<SharemapPage> {
 
   // getCurrentLocation();
    final dbRef = FirebaseDatabase.instance.reference().child("location");
-   
-     
- 
+   dbRef.orderByChild("userId").equalTo(widget.userId).once();
+  //  dbRef.orderByChild("userId").equalTo(widget.userId).once();
+    
+ _onLocationAddedSubscription = _locationQuery.onChildAdded.listen(onEntryAdded);
+    _onLocationChangedSubscription =
+        _locationQuery.onChildChanged.listen(onEntryChanged);
 dbRef.once().then((DataSnapshot snapshot){
   Map<dynamic, dynamic> values = snapshot.value;
      values.forEach((key,values) {
       print(values["lat"]);
        _locationList.add(values);
+        print(_locationList);
        locupdateMarkerAndCircle();
     });
  });
   }
   Future<void> locupdateMarkerAndCircle() async {
+   
      Uint8List imageData = await getMarker();
-    LatLng latlng = LatLng(_locationList[0].lat,_locationList[0].lang);
+    LatLng latlng = LatLng(_locationList[0]['lat'],_locationList[0]['lang']);
+     if (_controller != null) {
+          _controller.moveCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+              bearing: 192.8334901395799,
+              target: latlng,
+              tilt: 0,
+              zoom: 18.00)));
+             // addNewLocationItem(newLocalData.latitude,newLocalData.longitude);
+          //updateMarkerAndCircle(newLocalData, imageData);
+        }
     this.setState(() {
       marker = Marker(
-          markerId: MarkerId("home"),
+          markerId: MarkerId("homesd"),
           position: latlng,
           draggable: false,
           zIndex: 2,
@@ -87,6 +101,7 @@ dbRef.once().then((DataSnapshot snapshot){
           center: latlng,
           fillColor: Colors.blue.withAlpha(70));
     });
+    
   }
   onEntryChanged(Event event) {
     var oldEntry = _locationList.singleWhere((entry) {
