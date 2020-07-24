@@ -47,15 +47,15 @@ class _SharemapPageState extends State<SharemapPage> {
     _locationList = new List();
     // _locationQuery = _database
     //     .reference()
-    //     .child("location")
-    //     .orderByChild("userId")
-    //     .equalTo('QqU5i58Ek9WC3FS7SkSioYNJnPs1');
+    //     .child("location");
+    //    // .orderByChild("userId")
+    //     //.equalTo('QqU5i58Ek9WC3FS7SkSioYNJnPs1');
     // _onLocationAddedSubscription = _locationQuery.onChildAdded.listen(onEntryAdded);
     // _onLocationChangedSubscription =
     //     _locationQuery.onChildChanged.listen(onEntryChanged);
 
-   // getCurrentLocation();
-   final dbRef = FirebaseDatabase.instance.reference().child("location").orderByChild('userId').equalTo('QqU5i58Ek9WC3FS7SkSioYNJnPs1');
+  // getCurrentLocation();
+   final dbRef = FirebaseDatabase.instance.reference().child("location");
    
      
  
@@ -64,10 +64,30 @@ dbRef.once().then((DataSnapshot snapshot){
      values.forEach((key,values) {
       print(values["lat"]);
        _locationList.add(values);
+       locupdateMarkerAndCircle();
     });
  });
   }
-  
+  Future<void> locupdateMarkerAndCircle() async {
+     Uint8List imageData = await getMarker();
+    LatLng latlng = LatLng(_locationList[0].lat,_locationList[0].lang);
+    this.setState(() {
+      marker = Marker(
+          markerId: MarkerId("home"),
+          position: latlng,
+          draggable: false,
+          zIndex: 2,
+          flat: true,
+          anchor: Offset(0.5, 0.5),
+          icon: BitmapDescriptor.fromBytes(imageData));
+      circle = Circle(
+          circleId: CircleId("car"),
+          zIndex: 1,
+          strokeColor: Colors.blue,
+          center: latlng,
+          fillColor: Colors.blue.withAlpha(70));
+    });
+  }
   onEntryChanged(Event event) {
     var oldEntry = _locationList.singleWhere((entry) {
       return entry.key == event.snapshot.key;
@@ -114,9 +134,9 @@ dbRef.once().then((DataSnapshot snapshot){
     try {
 
       Uint8List imageData = await getMarker();
-      var location = await _locationTracker.getLocation();
+      // var location = await _locationTracker.getLocation();
 
-      updateMarkerAndCircle(location, imageData);
+     // updateMarkerAndCircle(location, imageData);
 
       if (_locationSubscription != null) {
         _locationSubscription.cancel();
@@ -130,7 +150,7 @@ dbRef.once().then((DataSnapshot snapshot){
               target: LatLng(newLocalData.latitude, newLocalData.longitude),
               tilt: 0,
               zoom: 18.00)));
-              addNewLocationItem(newLocalData.latitude,newLocalData.longitude);
+            //  addNewLocationItem(newLocalData.latitude,newLocalData.longitude);
           updateMarkerAndCircle(newLocalData, imageData);
         }
       });

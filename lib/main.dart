@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_maps/pages/root_page.dart';
 import 'package:flutter_maps/services/authentication.dart';
+import 'package:flutter_maps/sharemap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_maps/models/todo.dart';
@@ -197,7 +198,13 @@ class _MyHomePageState extends State<MyHomePage> {
     
   }
   
-  
+  share() async {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => SharemapPage()),
+  );
+   
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +215,11 @@ class _MyHomePageState extends State<MyHomePage> {
             new FlatButton(
                 child: new Text('Logout',
                     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-                onPressed: signOut)
+                onPressed: signOut),
+                new FlatButton(
+                child: new Text('Share',
+                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                onPressed: share)
           ],
         ),
       
