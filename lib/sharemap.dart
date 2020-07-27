@@ -62,8 +62,8 @@ class _SharemapPageState extends State<SharemapPage> {
   void databaseHandling()
   {
      timercallMethod();
-    final dbRef = FirebaseDatabase.instance.reference().child("location");
-   dbRef.orderByChild("userId").equalTo(widget.userId).once();
+    final dbRef = FirebaseDatabase.instance.reference().child("location").orderByChild("userId").equalTo(widget.userId);
+  // dbRef.orderByChild("userId").equalTo(widget.userId).once();
   //  dbRef.orderByChild("userId").equalTo(widget.userId).once();
     
 //  _onLocationAddedSubscription = _locationQuery.onChildAdded.listen(onEntryAdded);

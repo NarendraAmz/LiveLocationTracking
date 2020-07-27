@@ -21,7 +21,7 @@ class _MyListPageState extends State<MyListPage> {
   @override
   Widget build(BuildContext context) {
        final dbRef = FirebaseDatabase.instance.reference().child("location");
-   dbRef.orderByChild("userId").equalTo(widget.userid).once();
+   //dbRef.orderByChild("userId").equalTo(widget.userid).once();
     return Scaffold(
       appBar: AppBar(
         title: Text('List'),
