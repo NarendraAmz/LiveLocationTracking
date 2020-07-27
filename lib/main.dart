@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart' ;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_maps/homepage.dart';
+import 'package:flutter_maps/models/latLongModel.dart';
 import 'package:flutter_maps/pages/recent_locations.dart';
 import 'package:flutter_maps/pages/root_page.dart';
 import 'package:flutter_maps/services/authentication.dart';
@@ -54,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
  StreamSubscription<Event> _onLocationAddedSubscription;
   StreamSubscription<Event> _onLocationChangedSubscription;
   Query _locationQuery;
-
+FirebaseUser user;
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(0.0, 0.0),
     zoom: 14.4746,
@@ -80,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _locationQuery.onChildChanged.listen(onEntryChanged);
 
     getCurrentLocation();
+     
   }
   
   onEntryChanged(Event event) {
@@ -132,6 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getCurrentLocation() async {
+
+    user  = await widget.auth.getCurrentUser();
     try {
 
       Uint8List imageData = await getMarker();
@@ -153,6 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
               zoom: 18.00)));
               addNewLocationItem(newLocalData.latitude,newLocalData.longitude);
           updateMarkerAndCircle(newLocalData, imageData);
+          addLocationToRecentsList(newLocalData.latitude,newLocalData.longitude);
         }
       });
 
@@ -170,10 +176,35 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     super.dispose();
   }
-  addLatLngToRecentLocationslist(double lat, double lang){
+  addLocationToRecentsList(double lat, double lang)
+  {
+    final dbRef = FirebaseDatabase.instance.reference().child("RecentPlaceslist");
+    dbRef.once().then((DataSnapshot snapshot){
+  Map<dynamic, dynamic> values = snapshot.value;
+     print('list values are $values');
+     if(values == null)
+     {
+        LatLongmodel model = new LatLongmodel();
+        model.latitude = lat;
+        model.longitude = lang;
+        model.userName = widget.userId;
+        LatListmodel listModel = new LatListmodel();
+        List<LatLongmodel> latlistModel = [];
+        latlistModel.add(model);
+        listModel.listData = latlistModel;
+        listModel.user = widget.userId;
+       final DataRepository repository = DataRepository();
+       repository.addName(listModel);
+     }
+     else
+     {
+
+     }
      
+ });
+
   }
-   addNewLocationItem(double lat, double lang) {
+   addNewLocationItem(double lat, double lang)  {
    // final dbRef = FirebaseDatabase.instance.reference().child("location");
    
      
@@ -185,9 +216,10 @@ class _MyHomePageState extends State<MyHomePage> {
 //       // _locationList.add(values);
 //     });
 //  });
+
    setState(() { });
      if (_locationList.length == 0) {
-      LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
+      LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId,user.email);
     //  _database.reference().child("location").push().set(todo.toJson());
      _database.reference().child("location").child(widget.userId).set(todo.toJson());
      }
@@ -200,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
   updateLocationItem(double lat, double lang) {
     //Toggle completed
    String todoId = _locationList[0].key;
-  LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
+  LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId,user.email);
       _database.reference().child("location").child(todoId).set(todo.toJson());
     
   }
@@ -251,7 +283,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       
-      body: GoogleMap(
+      body: 
+      
+      GoogleMap(
         mapType: MapType.normal,
         myLocationButtonEnabled: false,
         myLocationEnabled: true,

@@ -47,14 +47,14 @@ class LatLongmodel {
 
 class DataRepository {
   // 1
-  final CollectionReference collection = Firestore.instance.collection('recentPlaceslist');
+  final CollectionReference collection = Firestore.instance.collection('RecentPlaceslist');
   // 2
   Stream<QuerySnapshot> getStream() {
     return collection.snapshots();
   }
   // 3
-  Future<DocumentReference> addName(LatListmodel pet) {
-    return collection.add(pet.toMap());
+  Future<DocumentReference> addName(LatListmodel data) {
+    return collection.add(data.toMap());
   }
  
 }

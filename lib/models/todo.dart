@@ -28,12 +28,14 @@ class LocationDataNew {
   double lang;
   String key;
   String userId;
+  String email;
 
-  LocationDataNew(this.lat, this.lang,this.userId);
+  LocationDataNew(this.lat, this.lang,this.userId,this.email);
 
   LocationDataNew.fromSnapshot(DataSnapshot snapshot) :
     key = snapshot.key,
     userId = snapshot.value["userId"],
+    email = snapshot.value["email"],
     lat = snapshot.value["lat"],
     lang = snapshot.value["lang"];
     
@@ -43,6 +45,7 @@ class LocationDataNew {
       "userId": userId,
       "lat": lat,
       "lang": lang,
+      "email":email
       
     };
   }
