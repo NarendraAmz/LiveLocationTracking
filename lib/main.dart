@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_maps/homepage.dart';
+import 'package:flutter_maps/pages/recent_locations.dart';
 import 'package:flutter_maps/pages/root_page.dart';
 import 'package:flutter_maps/services/authentication.dart';
 import 'package:flutter_maps/sharemap.dart';
@@ -169,6 +170,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     super.dispose();
   }
+  addLatLngToRecentLocationslist(double lat, double lang){
+     
+  }
    addNewLocationItem(double lat, double lang) {
    // final dbRef = FirebaseDatabase.instance.reference().child("location");
    
@@ -215,6 +219,12 @@ class _MyHomePageState extends State<MyHomePage> {
   );
    
   }
+  recent() async{
+     Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => RecentLocationComponenet(userid: widget.userId)),
+  );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,16 +234,20 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
             new FlatButton(
                 child: new Text('Logout',
-                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                    style: new TextStyle(fontSize: 13.0, color: Colors.white)),
                 onPressed: signOut),
                 new FlatButton(
                 child: new Text('Share',
-                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                    style: new TextStyle(fontSize: 13.0, color: Colors.white)),
                 onPressed: share),
                 new FlatButton(
                 child: new Text('List',
-                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-                onPressed: list)
+                    style: new TextStyle(fontSize: 13.0, color: Colors.white)),
+                onPressed: list),
+                new FlatButton(
+                child: new Text('Recent',
+                    style: new TextStyle(fontSize: 13.0, color: Colors.white)),
+                onPressed: recent)
           ],
         ),
       
