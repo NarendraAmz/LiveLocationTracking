@@ -156,7 +156,7 @@ share() async {
           child: new ListView(
             shrinkWrap: true,
             children: <Widget>[
-              showLogo(),
+             // showLogo(),
               showEmailInput(),
               showPasswordInput(),
               showPrimaryButton(),

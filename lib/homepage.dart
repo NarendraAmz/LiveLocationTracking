@@ -26,8 +26,8 @@ class _MyListPageState extends State<MyListPage> {
       appBar: AppBar(
         title: Text('List'),
       ),
-      body: Center(
-        child: SingleChildScrollView(child: 
+      body: 
+         SingleChildScrollView(child: 
         FutureBuilder(
     future: dbRef.once(),
     builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
@@ -45,7 +45,8 @@ class _MyListPageState extends State<MyListPage> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                    Text("Name: " + lists[index]['userId']),
+                    Text("Email: " + lists[index]['email']),
+                    Text("userId: " + lists[index]['userId']),
                     Text("lat: "+ lists[index]['lat'].toString()),
                     Text("lang: " +lists[index]['lang'].toString()),
                     ],
@@ -56,7 +57,7 @@ class _MyListPageState extends State<MyListPage> {
         return CircularProgressIndicator();
     })
         )
-      ),
+      
     );
   }
 }

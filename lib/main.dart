@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
  StreamSubscription<Event> _onLocationAddedSubscription;
   StreamSubscription<Event> _onLocationChangedSubscription;
   Query _locationQuery;
-
+FirebaseUser user;
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(0.0, 0.0),
     zoom: 14.4746,
@@ -131,6 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getCurrentLocation() async {
+
+    user  = await widget.auth.getCurrentUser();
     try {
 
       Uint8List imageData = await getMarker();
@@ -169,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     super.dispose();
   }
-   addNewLocationItem(double lat, double lang) {
+   addNewLocationItem(double lat, double lang)  {
    // final dbRef = FirebaseDatabase.instance.reference().child("location");
    
      
@@ -181,9 +184,10 @@ class _MyHomePageState extends State<MyHomePage> {
 //       // _locationList.add(values);
 //     });
 //  });
+
    setState(() { });
      if (_locationList.length == 0) {
-      LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
+      LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId,user.email);
     //  _database.reference().child("location").push().set(todo.toJson());
      _database.reference().child("location").child(widget.userId).set(todo.toJson());
      }
@@ -196,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
   updateLocationItem(double lat, double lang) {
     //Toggle completed
    String todoId = _locationList[0].key;
-  LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
+  LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId,user.email);
       _database.reference().child("location").child(todoId).set(todo.toJson());
     
   }

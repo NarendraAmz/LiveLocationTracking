@@ -61,7 +61,7 @@ class _SharemapPageState extends State<SharemapPage> {
   }
   void databaseHandling()
   {
-    // timercallMethod();
+     timercallMethod();
     final dbRef = FirebaseDatabase.instance.reference().child("location");
    dbRef.orderByChild("userId").equalTo(widget.userId).once();
   //  dbRef.orderByChild("userId").equalTo(widget.userId).once();
@@ -73,6 +73,10 @@ dbRef.once().then((DataSnapshot snapshot){
   Map<dynamic, dynamic> values = snapshot.value;
      values.forEach((key,values) {
       print(values["lat"]);
+      if(_locationList.length >0)
+      {
+      _locationList.removeAt(0);
+      }
        _locationList.add(values);
         print(_locationList);
        locupdateMarkerAndCircle();
@@ -164,36 +168,36 @@ dbRef.once().then((DataSnapshot snapshot){
     }
     super.dispose();
   }
-   addNewLocationItem(double lat, double lang) {
-   // final dbRef = FirebaseDatabase.instance.reference().child("location");
+//    addNewLocationItem(double lat, double lang) {
+//    // final dbRef = FirebaseDatabase.instance.reference().child("location");
    
      
  
-// dbRef.once().then((DataSnapshot snapshot){
-//   Map<dynamic, dynamic> values = snapshot.value;
-//      values.forEach((key,values) {
-//       print(values["lat"]);
-//       // _locationList.add(values);
-//     });
-//  });
-   setState(() { });
-     if (_locationList.length == 0) {
-      LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
-      _database.reference().child("location").push().set(todo.toJson());
-     }
-     else
-     {
-       updateLocationItem(lat, lang);
-     }
+// // dbRef.once().then((DataSnapshot snapshot){
+// //   Map<dynamic, dynamic> values = snapshot.value;
+// //      values.forEach((key,values) {
+// //       print(values["lat"]);
+// //       // _locationList.add(values);
+// //     });
+// //  });
+//    setState(() { });
+//      if (_locationList.length == 0) {
+//       LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
+//       _database.reference().child("location").push().set(todo.toJson());
+//      }
+//      else
+//      {
+//        updateLocationItem(lat, lang);
+//      }
     
-  }
-  updateLocationItem(double lat, double lang) {
-    //Toggle completed
-   String todoId = _locationList[0].key;
-  LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
-      _database.reference().child("location").child(todoId).set(todo.toJson());
+//   }
+//   updateLocationItem(double lat, double lang) {
+//     //Toggle completed
+//    String todoId = _locationList[0].key;
+//   LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
+//       _database.reference().child("location").child(todoId).set(todo.toJson());
     
-  }
+//   }
   
   
 
