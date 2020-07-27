@@ -30,7 +30,7 @@ class _SharemapPageState extends State<SharemapPage> {
  StreamSubscription<Event> _onLocationAddedSubscription;
   StreamSubscription<Event> _onLocationChangedSubscription;
   Query _locationQuery;
-
+ Timer timer;
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(0.0, 0.0),
     zoom: 14.4746,
@@ -55,13 +55,20 @@ class _SharemapPageState extends State<SharemapPage> {
     //     _locationQuery.onChildChanged.listen(onEntryChanged);
 
   // getCurrentLocation();
-   final dbRef = FirebaseDatabase.instance.reference().child("location");
+  
+  databaseHandling();
+   
+  }
+  void databaseHandling()
+  {
+    // timercallMethod();
+    final dbRef = FirebaseDatabase.instance.reference().child("location");
    dbRef.orderByChild("userId").equalTo(widget.userId).once();
   //  dbRef.orderByChild("userId").equalTo(widget.userId).once();
     
- _onLocationAddedSubscription = _locationQuery.onChildAdded.listen(onEntryAdded);
-    _onLocationChangedSubscription =
-        _locationQuery.onChildChanged.listen(onEntryChanged);
+//  _onLocationAddedSubscription = _locationQuery.onChildAdded.listen(onEntryAdded);
+//     _onLocationChangedSubscription =
+//         _locationQuery.onChildChanged.listen(onEntryChanged);
 dbRef.once().then((DataSnapshot snapshot){
   Map<dynamic, dynamic> values = snapshot.value;
      values.forEach((key,values) {
@@ -71,6 +78,25 @@ dbRef.once().then((DataSnapshot snapshot){
        locupdateMarkerAndCircle();
     });
  });
+
+ setState(() {
+   
+ });
+  }
+  void timercallMethod()
+  {
+   timer =  Timer(Duration(seconds: 10), () {
+     databaseHandling();
+  print("Yeah, this line is printed after 3 seconds");
+});
+ 
+  }
+  void timerCancel()
+  {
+    if(timer.isActive)
+    {
+    timer.cancel();
+    }
   }
   Future<void> locupdateMarkerAndCircle() async {
    
@@ -94,91 +120,45 @@ dbRef.once().then((DataSnapshot snapshot){
           flat: true,
           anchor: Offset(0.5, 0.5),
           icon: BitmapDescriptor.fromBytes(imageData));
-      circle = Circle(
-          circleId: CircleId("car"),
-          zIndex: 1,
-          strokeColor: Colors.blue,
-          center: latlng,
-          fillColor: Colors.blue.withAlpha(70));
+      // circle = Circle(
+      //     circleId: CircleId("car"),
+      //     zIndex: 1,
+      //     strokeColor: Colors.blue,
+      //     center: latlng,
+      //     fillColor: Colors.blue.withAlpha(70));
     });
     
   }
-  onEntryChanged(Event event) {
-    var oldEntry = _locationList.singleWhere((entry) {
-      return entry.key == event.snapshot.key;
-    });
+  // onEntryChanged(Event event) {
+  //   var oldEntry = _locationList.singleWhere((entry) {
+  //     return entry.key == event.snapshot.key;
+  //   });
 
-    setState(() {
-      _locationList[_locationList.indexOf(oldEntry)] =
-          LocationDataNew.fromSnapshot(event.snapshot);
-    });
-  }
+  //   setState(() {
+  //     _locationList[_locationList.indexOf(oldEntry)] =
+  //         LocationDataNew.fromSnapshot(event.snapshot);
+  //   });
+  // }
 
-  onEntryAdded(Event event) {
-     //if (_locationList.length == 0) {
-    setState(() {
-      _locationList.add(LocationDataNew.fromSnapshot(event.snapshot));
-    });
-    // }
-  }
+  // onEntryAdded(Event event) {
+  //    //if (_locationList.length == 0) {
+  //   setState(() {
+  //     _locationList.add(LocationDataNew.fromSnapshot(event.snapshot));
+  //   });
+  //   // }
+  // }
   
 
-  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
-    LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
-    this.setState(() {
-      marker = Marker(
-          markerId: MarkerId("home"),
-          position: latlng,
-          rotation: newLocalData.heading,
-          draggable: false,
-          zIndex: 2,
-          flat: true,
-          anchor: Offset(0.5, 0.5),
-          icon: BitmapDescriptor.fromBytes(imageData));
-      circle = Circle(
-          circleId: CircleId("car"),
-          radius: newLocalData.accuracy,
-          zIndex: 1,
-          strokeColor: Colors.blue,
-          center: latlng,
-          fillColor: Colors.blue.withAlpha(70));
-    });
-  }
+  
 
-  void getCurrentLocation() async {
-    try {
-
-      Uint8List imageData = await getMarker();
-      // var location = await _locationTracker.getLocation();
-
-     // updateMarkerAndCircle(location, imageData);
-
-      if (_locationSubscription != null) {
-        _locationSubscription.cancel();
-      }
-
-
-      _locationSubscription = _locationTracker.onLocationChanged().listen((newLocalData) {
-        if (_controller != null) {
-          _controller.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-              bearing: 192.8334901395799,
-              target: LatLng(newLocalData.latitude, newLocalData.longitude),
-              tilt: 0,
-              zoom: 18.00)));
-            //  addNewLocationItem(newLocalData.latitude,newLocalData.longitude);
-          updateMarkerAndCircle(newLocalData, imageData);
-        }
-      });
-
-    } on PlatformException catch (e) {
-      if (e.code == 'PERMISSION_DENIED') {
-        debugPrint("Permission Denied");
-      }
-    }
-  }
+  
 
   @override
   void dispose() {
+    if(timer != null)
+    {
+    timerCancel();
+    }
     if (_locationSubscription != null) {
       _locationSubscription.cancel();
     }
@@ -221,7 +201,7 @@ dbRef.once().then((DataSnapshot snapshot){
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Data'),
+        title: Text('Share Data'),
         ),
       
       body: GoogleMap(
@@ -230,7 +210,7 @@ dbRef.once().then((DataSnapshot snapshot){
         myLocationEnabled: true,
         initialCameraPosition: initialLocation,
         markers: Set.of((marker != null) ? [marker] : []),
-        circles: Set.of((circle != null) ? [circle] : []),
+       // circles: Set.of((circle != null) ? [circle] : []),
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
         },

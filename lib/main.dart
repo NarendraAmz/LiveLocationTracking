@@ -73,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .child("location")
         .orderByChild("userId")
         .equalTo(widget.userId);
+        print('userid = ${widget.userId}');
     _onLocationAddedSubscription = _locationQuery.onChildAdded.listen(onEntryAdded);
     _onLocationChangedSubscription =
         _locationQuery.onChildChanged.listen(onEntryChanged);
@@ -119,13 +120,13 @@ class _MyHomePageState extends State<MyHomePage> {
           flat: true,
           anchor: Offset(0.5, 0.5),
           icon: BitmapDescriptor.fromBytes(imageData));
-      circle = Circle(
-          circleId: CircleId("car"),
-          radius: newLocalData.accuracy,
-          zIndex: 1,
-          strokeColor: Colors.blue,
-          center: latlng,
-          fillColor: Colors.blue.withAlpha(70));
+      // circle = Circle(
+      //     circleId: CircleId("car"),
+      //     radius: newLocalData.accuracy,
+      //     zIndex: 1,s
+      //     strokeColor: Colors.blue,
+      //     center: latlng,
+      //     fillColor: Colors.blue.withAlpha(70));
     });
   }
 
@@ -183,7 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
    setState(() { });
      if (_locationList.length == 0) {
       LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId);
-      _database.reference().child("location").push().set(todo.toJson());
+    //  _database.reference().child("location").push().set(todo.toJson());
+     _database.reference().child("location").child(widget.userId).set(todo.toJson());
      }
      else
      {
@@ -241,7 +243,7 @@ class _MyHomePageState extends State<MyHomePage> {
         myLocationEnabled: true,
         initialCameraPosition: initialLocation,
         markers: Set.of((marker != null) ? [marker] : []),
-        circles: Set.of((circle != null) ? [circle] : []),
+       // circles: Set.of((circle != null) ? [circle] : []),
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
         },
