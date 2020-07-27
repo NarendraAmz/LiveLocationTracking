@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_maps/services/authentication.dart';
+import 'package:flutter_maps/sharedlist.dart';
 import 'package:flutter_maps/sharemap.dart';
 
 class LoginSignupPage extends StatefulWidget {
@@ -91,7 +92,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 share() async {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => SharemapPage()),
+    MaterialPageRoute(builder: (context) => MySharedListPage()),
   );
    
   }
@@ -100,12 +101,12 @@ share() async {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Flutter login demo'),
-          // actions: <Widget>[
-          //   new FlatButton(
-          //       child: new Text('Share',
-          //           style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-          //       onPressed: share)
-          // ],
+          actions: <Widget>[
+            new FlatButton(
+                child: new Text('Shared List',
+                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                onPressed: share)
+          ],
         ),
         body: Stack(
           children: <Widget>[

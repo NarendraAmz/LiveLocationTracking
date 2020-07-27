@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_maps/homepage.dart';
 import 'package:flutter_maps/pages/root_page.dart';
 import 'package:flutter_maps/services/authentication.dart';
+import 'package:flutter_maps/sharedlist.dart';
 import 'package:flutter_maps/sharemap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -208,7 +209,7 @@ FirebaseUser user;
   share() async {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => SharemapPage(userId: widget.userId,)),
+    MaterialPageRoute(builder: (context) => SharemapPage(userId: widget.userId,user: user,value: true,)),
   );
    
   }

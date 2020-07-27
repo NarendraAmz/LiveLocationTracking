@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,11 +10,13 @@ import 'package:flutter_maps/models/todo.dart';
 
 class SharemapPage extends StatefulWidget {
   
-SharemapPage({Key key, this.userId})
+SharemapPage({Key key, this.userId,this.user,this.value})
       : super(key: key);
 
   
   final String userId;
+  final FirebaseUser user;
+  final bool value;
   @override
   _SharemapPageState createState() => _SharemapPageState();
 }
@@ -30,6 +33,7 @@ class _SharemapPageState extends State<SharemapPage> {
  StreamSubscription<Event> _onLocationAddedSubscription;
   StreamSubscription<Event> _onLocationChangedSubscription;
   Query _locationQuery;
+  List<LocationDataNew> _sharelocationList;
  Timer timer;
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(0.0, 0.0),
@@ -45,19 +49,56 @@ class _SharemapPageState extends State<SharemapPage> {
     // TODO: implement initState
     super.initState();
     _locationList = new List();
-    // _locationQuery = _database
-    //     .reference()
-    //     .child("location");
-    //    // .orderByChild("userId")
-    //     //.equalTo('QqU5i58Ek9WC3FS7SkSioYNJnPs1');
-    // _onLocationAddedSubscription = _locationQuery.onChildAdded.listen(onEntryAdded);
-    // _onLocationChangedSubscription =
-    //     _locationQuery.onChildChanged.listen(onEntryChanged);
+    if (widget.value == true)
+    {
+    _sharelocationList = new List();
+    _locationQuery = _database
+        .reference()
+        .child("shareddata");
+       // .orderByChild("userId")
+        //.equalTo('QqU5i58Ek9WC3FS7SkSioYNJnPs1');
+    _onLocationAddedSubscription = _locationQuery.onChildAdded.listen(onEntryAdded);
+    _onLocationChangedSubscription =
+        _locationQuery.onChildChanged.listen(onEntryChanged);
+    }
 
   // getCurrentLocation();
   
+  
   databaseHandling();
    
+  }
+  addNewLocationItem(double lat, double lang)  {
+   // final dbRef = FirebaseDatabase.instance.reference().child("location");
+   
+     
+ 
+// dbRef.once().then((DataSnapshot snapshot){
+//   Map<dynamic, dynamic> values = snapshot.value;
+//      values.forEach((key,values) {
+//       print(values["lat"]);
+//       // _locationList.add(values);
+//     });
+//  });
+
+   setState(() { });
+     if (_sharelocationList.length == 0) {
+      LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId,widget.user.email);
+    //  _database.reference().child("location").push().set(todo.toJson());
+     _database.reference().child("shareddata").child(widget.userId).set(todo.toJson());
+     }
+     else
+     {
+       updateLocationItem(lat, lang);
+     }
+    
+  }
+  updateLocationItem(double lat, double lang) {
+    //Toggle completed
+   String todoId = _sharelocationList[0].key;
+  LocationDataNew todo = new LocationDataNew(lat,lang,widget.userId,widget.user.email);
+      _database.reference().child("shareddata").child(todoId).set(todo.toJson());
+    
   }
   void databaseHandling()
   {
@@ -79,6 +120,10 @@ dbRef.once().then((DataSnapshot snapshot){
       }
        _locationList.add(values);
         print(_locationList);
+         if (widget.value == true)
+    {
+        addNewLocationItem(_locationList[0]['lat'],_locationList[0]['lang']);
+    }
        locupdateMarkerAndCircle();
     });
  });
@@ -133,24 +178,24 @@ dbRef.once().then((DataSnapshot snapshot){
     });
     
   }
-  // onEntryChanged(Event event) {
-  //   var oldEntry = _locationList.singleWhere((entry) {
-  //     return entry.key == event.snapshot.key;
-  //   });
+  onEntryChanged(Event event) {
+    var oldEntry = _sharelocationList.singleWhere((entry) {
+      return entry.key == event.snapshot.key;
+    });
 
-  //   setState(() {
-  //     _locationList[_locationList.indexOf(oldEntry)] =
-  //         LocationDataNew.fromSnapshot(event.snapshot);
-  //   });
-  // }
+    setState(() {
+      _sharelocationList[_sharelocationList.indexOf(oldEntry)] =
+          LocationDataNew.fromSnapshot(event.snapshot);
+    });
+  }
 
-  // onEntryAdded(Event event) {
-  //    //if (_locationList.length == 0) {
-  //   setState(() {
-  //     _locationList.add(LocationDataNew.fromSnapshot(event.snapshot));
-  //   });
-  //   // }
-  // }
+  onEntryAdded(Event event) {
+     //if (_locationList.length == 0) {
+    setState(() {
+      _sharelocationList.add(LocationDataNew.fromSnapshot(event.snapshot));
+    });
+    // }
+  }
   
 
   
