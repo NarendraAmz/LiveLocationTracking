@@ -56,7 +56,7 @@ class ListState extends State<ListClass> {
             ?
         ListView.separated(
             separatorBuilder: (context, index) => Divider(
-                  color: Colors.transparent,
+                  color: Colors.grey,
                 ),
             padding: EdgeInsets.only(top: 10),
             itemCount: widget.datalistArray.length != null ? widget.datalistArray.length : 0,
