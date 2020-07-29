@@ -8,11 +8,11 @@ class Todo {
 
   Todo(this.subject, this.userId, this.completed);
 
-  Todo.fromSnapshot(DataSnapshot snapshot) :
-    key = snapshot.key,
-    userId = snapshot.value["userId"],
-    subject = snapshot.value["subject"],
-    completed = snapshot.value["completed"];
+  Todo.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        userId = snapshot.value["userId"],
+        subject = snapshot.value["subject"],
+        completed = snapshot.value["completed"];
 
   toJson() {
     return {
@@ -30,23 +30,16 @@ class LocationDataNew {
   String userId;
   String email;
 
-  LocationDataNew(this.lat, this.lang,this.userId,this.email);
+  LocationDataNew(this.lat, this.lang, this.userId, this.email);
 
-  LocationDataNew.fromSnapshot(DataSnapshot snapshot) :
-    key = snapshot.key,
-    userId = snapshot.value["userId"],
-    email = snapshot.value["email"],
-    lat = snapshot.value["lat"],
-    lang = snapshot.value["lang"];
-    
+  LocationDataNew.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        userId = snapshot.value["userId"],
+        email = snapshot.value["email"],
+        lat = snapshot.value["lat"],
+        lang = snapshot.value["lang"];
 
   toJson() {
-    return {
-      "userId": userId,
-      "lat": lat,
-      "lang": lang,
-      "email":email
-      
-    };
+    return {"userId": userId, "lat": lat, "lang": lang, "email": email};
   }
 }

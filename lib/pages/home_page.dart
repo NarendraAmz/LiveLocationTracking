@@ -32,9 +32,6 @@ class _HomePageState extends State<HomePage> {
 
   //bool _isEmailVerified = false;
 
-
-  
-
   @override
   void initState() {
     super.initState();

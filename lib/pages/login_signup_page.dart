@@ -21,7 +21,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   String _password;
   String _errorMessage;
 
-    bool _isLoginForm;
+  bool _isLoginForm;
   bool _isLoading;
 
   // Check if form is valid before perform login or signup
@@ -89,13 +89,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       _isLoginForm = !_isLoginForm;
     });
   }
-share() async {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => MySharedListPage()),
-  );
-   
+
+  share() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MySharedListPage()),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -157,7 +158,7 @@ share() async {
           child: new ListView(
             shrinkWrap: true,
             children: <Widget>[
-             // showLogo(),
+              // showLogo(),
               showEmailInput(),
               showPasswordInput(),
               showPrimaryButton(),
