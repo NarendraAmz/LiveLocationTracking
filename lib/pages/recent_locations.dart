@@ -52,15 +52,18 @@ class RecentLocationState extends State<RecentLocationComponenet> {
     if (data.user != null) {
       if (data.user == widget.userid) {
         if (data.listData != null) {
+          List<LatLongmodel> latdatamodel = [];
           for (var i = 0; i < data.listData.length; i++) {
-            model.latitude = data.listData[i]['latitude'];
-            model.longitude = data.listData[i]['longitude'];
-            model.userName = data.listData[i]['user'];
-            model.datetime = data.listData[i]['date'];
+            LatLongmodel datamodel = new LatLongmodel();
+            datamodel.latitude = data.listData[i]['latitude'];
+            datamodel.longitude = data.listData[i]['longitude'];
+            datamodel.userName = data.listData[i]['user'];
+            datamodel.datetime = data.listData[i]['date'];
     
-              latLongmodel.add(model);
+              latdatamodel.add(datamodel);
         
           }
+          latLongmodel = latdatamodel;
         } else {
           latLongmodel = [];
         }
@@ -124,7 +127,7 @@ class RecentLocationState extends State<RecentLocationComponenet> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListClass(
-                          height: 500,
+                          height: MediaQuery.of(context).size.height/1.3,
                           errorMessage: 'no data available',
                           datalistArray: latLongmodel,
                           subChild: (index) {
