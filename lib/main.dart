@@ -11,6 +11,7 @@ import 'package:flutter_maps/pages/root_page.dart';
 import 'package:flutter_maps/services/authentication.dart';
 import 'package:flutter_maps/sharemap.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:flutter_maps/models/todo.dart';
 
@@ -202,7 +203,8 @@ class _MyHomePageState extends State<MyHomePage> {
         model.latitude = lat;
         model.longitude = lang;
         model.userName = widget.userId;
-        model.datetime = DateTime.now().toString();
+        String formattedDate = DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.now());
+        model.datetime = formattedDate;
         LatListmodel listModel = new LatListmodel();
         List<Map<String, dynamic>> latlistModel = [];
         latlistModel.add(model.toMap());
@@ -245,11 +247,12 @@ class _MyHomePageState extends State<MyHomePage> {
               }
               if(!isExisted)
               {
+                String formattedDate = DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.now());
              mainSubData.add({
             'latitude': lat,
             'longitude': lang,
             'user': widget.userId,
-            'date':  DateTime.now().toString()
+            'date': formattedDate
                });
               }
             }
