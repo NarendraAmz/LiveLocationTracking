@@ -2,32 +2,35 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_maps/maproute.dart';
 import 'package:flutter_maps/models/todo.dart';
+import 'package:flutter_maps/polysharemap.dart';
 import 'package:flutter_maps/sharemap.dart';
 
-class MySharedListPage extends StatefulWidget {
-  MySharedListPage({Key key, this.userid}) : super(key: key);
+class PolyMySharedListPage extends StatefulWidget {
+  PolyMySharedListPage({Key key, this.userid}) : super(key: key);
   final String userid;
 
   @override
-  _MySharedListPageState createState() => _MySharedListPageState();
+  _PolyMySharedListPageState createState() => _PolyMySharedListPageState();
 }
 
-class _MySharedListPageState extends State<MySharedListPage> {
+class _PolyMySharedListPageState extends State<PolyMySharedListPage> {
   List lists;
+   Query dbRef;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     lists = new List();
+         dbRef = FirebaseDatabase.instance.reference().child("polyshareddata");
   }
 
   @override
   Widget build(BuildContext context) {
-    final dbRef = FirebaseDatabase.instance.reference().child("shareddata");
+
     //dbRef.orderByChild("userId").equalTo(widget.userid).once();
     return Scaffold(
         // appBar: AppBar(
-        //   title: Text('Shared List'),
+        //   title: Text('Poly Shared List'),
         //   actions: <Widget>[
         //   new FlatButton(
         //       // child: new Text('List',
@@ -47,12 +50,13 @@ class _MySharedListPageState extends State<MySharedListPage> {
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
                     //lists.clear();
+                    
                     Map<dynamic, dynamic> values = snapshot.data.value;
                     if(values != null)
                     {
                       lists.clear();
-                    values.forEach((key, values) {
-                      lists.add(values);
+                    values.forEach((key, value) {
+                      lists.add(key);
                     });
                     }
                     if (lists.length >0)
@@ -66,14 +70,16 @@ class _MySharedListPageState extends State<MySharedListPage> {
                             onTap: () => onClickMethod(index, lists),
                             child: Card(
                               child: Column(
+                                //var value = lists[index];
+
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text("Email: " + lists[index]['email']),
-                                  Text("userId: " + lists[index]['userId']),
-                                  Text(
-                                      "lat: " + lists[index]['lat'].toString()),
-                                  Text("lang: " +
-                                      lists[index]['lang'].toString()),
+                                 // Text("Email: " + lists[index]['email']),
+                                  Text("userId: " + lists[index]),
+                                  //  Text(
+                                  //      "lat: " + lists[index]['lat'].toString()),
+                                  // Text("lang: " +
+                                  //     lists[index]['lang'].toString()),
                                 ],
                               ),
                             ),
@@ -95,14 +101,12 @@ maproute() async {
     );
   }
   void onClickMethod(int index, List lists) {
-    String userid = lists[index]['userId'];
+    String userid = lists[index];
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => SharemapPage(
+          builder: (context) => PolyshareMapSample(
                 userId: userid,
-                user: null,
-                value: false,
               )),
     );
   }

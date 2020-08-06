@@ -1,0 +1,231 @@
+{
+  "project_info": {
+    "project_number": "504559003442",
+    "firebase_url": "https://fcm-sample-e0ad0.firebaseio.com",
+    "project_id": "fcm-sample-e0ad0",
+    "storage_bucket": "fcm-sample-e0ad0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504559003442:android:bddc320fa8b126c68cd92b",
+        "android_client_info": {
+          "package_name": "com.bus.test_in_app_purchase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504559003442-5sijrbvraclqsdibnqob5i34099j8od8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bus.test_in_app_purchase",
+            "certificate_hash": "1f46b961611ce36bdcfe1e917ad226edacaf908a"
+          }
+        },
+        {
+          "client_id": "504559003442-g4dno48pf6ndq9580lfseajfom2amsco.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bus.test_in_app_purchase",
+            "certificate_hash": "a0d2ceb092b2519fd53d543909b376f179fe5390"
+          }
+        },
+        {
+          "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdcd6iMlOJoKZvZseJUb7ZtSJBylrnj-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "504559003442-95ot6nehfu6feek8pmdc98sfdqf1f0h8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evoke"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504559003442:android:81f8a7f0d7bd52a68cd92b",
+        "android_client_info": {
+          "package_name": "com.example.evoke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504559003442-5n2p6u1bn028nv8qpb24esncqnq7v9g6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.evoke",
+            "certificate_hash": "a0d2ceb092b2519fd53d543909b376f179fe5390"
+          }
+        },
+        {
+          "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdcd6iMlOJoKZvZseJUb7ZtSJBylrnj-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "504559003442-95ot6nehfu6feek8pmdc98sfdqf1f0h8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evoke"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504559003442:android:9334f6eaa8157b4f8cd92b",
+        "android_client_info": {
+          "package_name": "com.example.my_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdcd6iMlOJoKZvZseJUb7ZtSJBylrnj-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "504559003442-95ot6nehfu6feek8pmdc98sfdqf1f0h8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evoke"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504559003442:android:f6446c4c45c1c0fb",
+        "android_client_info": {
+          "package_name": "com.example.venkatesh.fcmsample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdcd6iMlOJoKZvZseJUb7ZtSJBylrnj-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "504559003442-95ot6nehfu6feek8pmdc98sfdqf1f0h8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evoke"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504559003442:android:73b5ec4a8d7cb58f8cd92b",
+        "android_client_info": {
+          "package_name": "com.retroportalstudio.www.flutter_maps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504559003442-ua0r5kk0997k1kf3fnib196lirl6si6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.retroportalstudio.www.flutter_maps",
+            "certificate_hash": "1f46b961611ce36bdcfe1e917ad226edacaf908a"
+          }
+        },
+        {
+          "client_id": "504559003442-l1hq0791i62n6n14gvmkq83va2p2ofn5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.retroportalstudio.www.flutter_maps",
+            "certificate_hash": "a0d2ceb092b2519fd53d543909b376f179fe5390"
+          }
+        },
+        {
+          "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdcd6iMlOJoKZvZseJUb7ZtSJBylrnj-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "504559003442-95ot6nehfu6feek8pmdc98sfdqf1f0h8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evoke"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

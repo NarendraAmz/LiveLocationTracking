@@ -4,12 +4,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_maps/checkboxslist.dart';
 import 'package:flutter_maps/homepage.dart';
 import 'package:flutter_maps/maproute.dart';
 import 'package:flutter_maps/pages/root_page.dart';
+import 'package:flutter_maps/polymap.dart';
+import 'package:flutter_maps/polysharedlist.dart';
+import 'package:flutter_maps/polysharemap.dart';
 import 'package:flutter_maps/services/authentication.dart';
 import 'package:flutter_maps/sharedlist.dart';
 import 'package:flutter_maps/sharemap.dart';
+import 'package:flutter_maps/tabbar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_maps/models/todo.dart';
@@ -266,7 +271,7 @@ LocationDataNew todo =
   sharedlist() async {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MySharedListPage()),
+      MaterialPageRoute(builder: (context) => TabHomePage()),
     );
   }
  
@@ -320,7 +325,8 @@ LocationDataNew todo =
               
         ],
       ),
-      body: GoogleMap(
+      body:  Stack(
+        children: <Widget>[ GoogleMap(
         mapType: MapType.normal,
         myLocationButtonEnabled: false,
         myLocationEnabled: true,
@@ -331,11 +337,70 @@ LocationDataNew todo =
           _controller = controller;
         },
       ),
+      Padding(
+        padding: EdgeInsets.all(16.0),
+        child:  Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Align(
+              alignment: Alignment.topRight,child: _buildPolyMapButton()),
+          ),
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Align(
+              alignment: Alignment.topRight,child: _buildRecentPlaceslistMapButton()),
+          ),
+        ]))
+        ]),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.location_searching),
           onPressed: () {
             getCurrentLocation();
           }),
+    );
+  }
+  Widget _buildPolyMapButton() {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.blue,
+      ),
+      child: GestureDetector(
+        child:  Icon(Icons.polymer),
+                     
+        onTap: () {
+         Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PolyMapSample(userId: widget.userId,auth: widget.auth,)),
+    );
+        },
+      ),
+    );
+  }
+  Widget _buildRecentPlaceslistMapButton() {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.blue,
+      ),
+      child: GestureDetector(
+        child:  Icon(Icons.recent_actors),
+                     
+        onTap: () {
+         Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PolyMapSample(userId: widget.userId,auth: widget.auth,)),
+    );
+        },
+      ),
     );
   }
 }
