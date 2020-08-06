@@ -173,7 +173,59 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504559003442:android:73b5ec4a8d7cb58f8cd92b",
+        "android_client_info": {
+          "package_name": "com.retroportalstudio.www.flutter_maps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504559003442-ua0r5kk0997k1kf3fnib196lirl6si6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.retroportalstudio.www.flutter_maps",
+            "certificate_hash": "1f46b961611ce36bdcfe1e917ad226edacaf908a"
+          }
+        },
+        {
+          "client_id": "504559003442-l1hq0791i62n6n14gvmkq83va2p2ofn5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.retroportalstudio.www.flutter_maps",
+            "certificate_hash": "a0d2ceb092b2519fd53d543909b376f179fe5390"
+          }
+        },
+        {
+          "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdcd6iMlOJoKZvZseJUb7ZtSJBylrnj-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504559003442-q6cpsspfjsu120hmtj5vujtb9bn6sane.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "504559003442-95ot6nehfu6feek8pmdc98sfdqf1f0h8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evoke"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
-} 
+}
