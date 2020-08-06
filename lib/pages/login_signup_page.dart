@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_maps/services/authentication.dart';
+import 'package:flutter_maps/sharedlist.dart';
 import 'package:flutter_maps/sharemap.dart';
 
 class LoginSignupPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   String _password;
   String _errorMessage;
 
-    bool _isLoginForm;
+  bool _isLoginForm;
   bool _isLoading;
 
   // Check if form is valid before perform login or signup
@@ -88,24 +89,25 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       _isLoginForm = !_isLoginForm;
     });
   }
-share() async {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => SharemapPage()),
-  );
-   
+
+  share() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MySharedListPage()),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Flutter login demo'),
-          // actions: <Widget>[
-          //   new FlatButton(
-          //       child: new Text('Share',
-          //           style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-          //       onPressed: share)
-          // ],
+          actions: <Widget>[
+            new FlatButton(
+                child: new Text('Shared List',
+                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                onPressed: share)
+          ],
         ),
         body: Stack(
           children: <Widget>[
@@ -156,7 +158,7 @@ share() async {
           child: new ListView(
             shrinkWrap: true,
             children: <Widget>[
-             // showLogo(),
+              // showLogo(),
               showEmailInput(),
               showPasswordInput(),
               showPrimaryButton(),

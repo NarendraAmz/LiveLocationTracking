@@ -1,4 +1,4 @@
-package com.retroportalstudio.www.flutter_maps
+package com.bus.test_in_app_purchase
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

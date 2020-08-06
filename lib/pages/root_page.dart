@@ -4,7 +4,6 @@ import 'package:flutter_maps/pages/home_page.dart';
 import 'package:flutter_maps/pages/login_signup_page.dart';
 import 'package:flutter_maps/services/authentication.dart';
 
-
 enum AuthStatus {
   NOT_DETERMINED,
   NOT_LOGGED_IN,
