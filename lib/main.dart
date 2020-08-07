@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_maps/checkboxslist.dart';
 import 'package:flutter_maps/homepage.dart';
 import 'package:flutter_maps/maproute.dart';
+import 'package:flutter_maps/models/latLongModel.dart';
+import 'package:flutter_maps/pages/recent_locations.dart';
 import 'package:flutter_maps/pages/root_page.dart';
 import 'package:flutter_maps/polymap.dart';
 import 'package:flutter_maps/polysharedlist.dart';
@@ -16,6 +18,7 @@ import 'package:flutter_maps/sharedlist.dart';
 import 'package:flutter_maps/sharemap.dart';
 import 'package:flutter_maps/tabbar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:flutter_maps/models/todo.dart';
 
@@ -142,6 +145,96 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+   addLocationToRecentsList(double lat, double lang)async {
+    Map<dynamic,dynamic> getRecentList;
+    final dbRef =
+        FirebaseDatabase.instance.reference().child("RecentPlaceslist").child(widget.userId);
+  await  dbRef.once().then((DataSnapshot snapshot) {
+          getRecentList = snapshot.value;
+    });
+      if (getRecentList == null) {
+       addNewListToNewUser(lat,lang);
+      } else {
+        getDataList(getRecentList,lat,lang);
+      }
+  }
+
+  addNewListToNewUser(double lat,double lang){
+ LatLongmodel model = new LatLongmodel();
+        model.latitude = lat;
+        model.longitude = lang;
+        model.userName = widget.userId;
+        String formattedDate = DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.now());
+        model.datetime = formattedDate;
+        LatListmodel listModel = new LatListmodel();
+        List<Map<String, dynamic>> latlistModel = [];
+        latlistModel.add(model.toMap());
+        listModel.listData = latlistModel;
+        listModel.user = widget.userId;
+        _database
+            .reference()
+            .child("RecentPlaceslist")
+            .child(widget.userId)
+            .set(listModel.toMap());
+  }
+
+  getDataList(dynamic data, double lat, double lang) {
+    LatListmodel mainModel = new LatListmodel();
+    List<Map<String, dynamic>> mainSubData = [];
+    if (data != null) {
+      if (widget.userId == data['user']) {
+        mainModel.user = data['user'];
+        List<dynamic> listData = data['listData'];
+        for (var i = 0; i < listData.length; i++) {
+          mainSubData.add({
+            'latitude': listData[i]['latitude'],
+            'longitude': listData[i]['longitude'],
+            'user': listData[i]['user'],
+            'date': listData[i]['date']
+          });
+        }
+        mainModel.listData = mainSubData;
+        if (mainModel != null) {
+        if (mainModel.user != null) {
+          if (mainModel.user == widget.userId) {
+            if (mainModel.listData != null) {
+              bool isExisted = false;
+              for (var i = 0; i < mainModel.listData.length; i++) {  
+                
+                if (mainModel.listData[i]['latitude'] == lat &&
+                    mainModel.listData[i]['longitude'] == lang) {
+                      isExisted = true;
+                } 
+              }
+              if(!isExisted)
+              {
+                String formattedDate = DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.now());
+             mainSubData.add({
+            'latitude': lat,
+            'longitude': lang,
+            'user': widget.userId,
+            'date': formattedDate
+               });
+              }
+            }
+          }
+        }
+      }
+      }
+      else
+      {
+        
+      }
+      
+    }  
+                _database
+            .reference()
+            .child("RecentPlaceslist")
+            .child(widget.userId)
+            .update(mainModel.toMap());
+    
+  }
+
   void getCurrentLocation() async {
     user = await widget.auth.getCurrentUser();
     try {
@@ -156,6 +249,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
       _locationSubscription =
           _locationTracker.onLocationChanged().listen((newLocalData) {
+            addLocationToRecentsList(
+              newLocalData.latitude, newLocalData.longitude);
         if (_controller != null) {
           _controller.animateCamera(CameraUpdate.newCameraPosition(
               new CameraPosition(
@@ -395,9 +490,11 @@ LocationDataNew todo =
         child:  Icon(Icons.recent_actors),
                      
         onTap: () {
-         Navigator.push(
+          Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PolyMapSample(userId: widget.userId,auth: widget.auth,)),
+      MaterialPageRoute(
+          builder: (context) =>
+              RecentLocationComponenet(userid: widget.userId)),
     );
         },
       ),
