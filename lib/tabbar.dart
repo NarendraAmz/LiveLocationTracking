@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_maps/contactsharedlist.dart';
 import 'package:flutter_maps/polysharedlist.dart';
 import 'package:flutter_maps/sharedlist.dart';
 class TabHomePage extends StatefulWidget {
+  TabHomePage({Key key, this.userId,}) : super(key: key);
+
+  final String userId;
   @override
   _TabHomePageState createState() => _TabHomePageState();
 }
@@ -12,7 +16,7 @@ class _TabHomePageState extends State<TabHomePage> with SingleTickerProviderStat
 
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = new TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -27,6 +31,9 @@ class _TabHomePageState extends State<TabHomePage> with SingleTickerProviderStat
           tabs: [
           new Tab(icon: new Icon(Icons.list)),
           new Tab(
+            icon: new Icon(Icons.contact_mail),
+          ),
+          new Tab(
             icon: new Icon(Icons.favorite),
           ),
          
@@ -39,6 +46,7 @@ class _TabHomePageState extends State<TabHomePage> with SingleTickerProviderStat
       body: TabBarView(
           children: [
         MySharedListPage(),
+        ContactSharedListPage(userid: widget.userId,),
       PolyMySharedListPage()
        // new Text("This is chat Tab View"),
         

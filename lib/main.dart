@@ -364,9 +364,10 @@ LocationDataNew todo =
   }
 
   sharedlist() async {
+    print(widget.userId);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => TabHomePage()),
+      MaterialPageRoute(builder: (context) => TabHomePage(userId :widget.userId,)),
     );
   }
  
@@ -449,6 +450,11 @@ LocationDataNew todo =
             child: Align(
               alignment: Alignment.topRight,child: _buildRecentPlaceslistMapButton()),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Align(
+              alignment: Alignment.topRight,child: _buildShare()),
+          ),
         ]))
         ]),
       floatingActionButton: FloatingActionButton(
@@ -495,6 +501,38 @@ LocationDataNew todo =
       MaterialPageRoute(
           builder: (context) =>
               RecentLocationComponenet(userid: widget.userId)),
+    );
+        },
+      ),
+    );
+  }
+  Widget _buildShare() {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.blue,
+      ),
+      child: GestureDetector(
+        child:  Icon(Icons.share),
+                     
+        onTap: () {
+    //       Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) =>
+    //           RecentLocationComponenet(userid: widget.userId)),
+    // );
+   // showDialog(
+                          // context: context,
+                          // builder: (_) => CheckboxListPage(userid: widget.userId,),
+                      //  );
+                        Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+             CheckboxListPage(userid: widget.userId,auth :widget.auth)),
     );
         },
       ),
