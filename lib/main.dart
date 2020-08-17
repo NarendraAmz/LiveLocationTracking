@@ -30,9 +30,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Maps',
-        theme: ThemeData(
+         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+      //   theme: ThemeData.from(
+      //   colorScheme: const ColorScheme.light(),
+      // ).copyWith(
+      //   pageTransitionsTheme: const PageTransitionsTheme(
+      //     builders: <TargetPlatform, PageTransitionsBuilder>{
+      //       TargetPlatform.android: ZoomPageTransitionsBuilder(),
+      //       TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+      //     },
+      //   ),
+      // ),
         home: new RootPage(auth: new Auth()));
 
     //MyHomePage(auth: new Auth()));
