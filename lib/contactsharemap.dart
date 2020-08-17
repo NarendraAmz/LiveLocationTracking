@@ -5,22 +5,22 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_maps/maproute.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_maps/models/todo.dart';
 
-class SharemapPage extends StatefulWidget {
-  SharemapPage({Key key, this.userId, this.user, this.value}) : super(key: key);
+class ContactSharemapPage extends StatefulWidget {
+  ContactSharemapPage({Key key, this.userId, this.user, this.value, this.shareuserid}) : super(key: key);
 
   final String userId;
+  final String shareuserid;
   final FirebaseUser user;
   final bool value;
   @override
-  _SharemapPageState createState() => _SharemapPageState();
+  _ContactSharemapPageState createState() => _ContactSharemapPageState();
 }
 
-class _SharemapPageState extends State<SharemapPage> {
+class _ContactSharemapPageState extends State<ContactSharemapPage> {
   List _locationList;
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -32,7 +32,7 @@ class _SharemapPageState extends State<SharemapPage> {
   StreamSubscription<Event> _onLocationAddedSubscription;
   StreamSubscription<Event> _onLocationChangedSubscription;
   Query _locationQuery;
-  List<LocationDataNew> _sharelocationList;
+  List<RecentLocationDataNew> _sharelocationList;
   Timer timer;
   static final CameraPosition initialLocation = CameraPosition(
     target: LatLng(0.0, 0.0),
@@ -51,17 +51,15 @@ class _SharemapPageState extends State<SharemapPage> {
     super.initState();
     _locationList = new List();
     
-    if (widget.value == true) {
-      Fluttertoast.showToast(msg: 'Shared data Successfully.');
+    
       _sharelocationList = new List();
-      _locationQuery = _database.reference().child("shareddata")
-       .orderByChild("userId")
-      .equalTo(widget.userId);
+      _locationQuery = _database.reference().child("Recentshareddata").orderByChild("shareduserId")
+       .equalTo(widget.userId);
       _onLocationAddedSubscription =
           _locationQuery.onChildAdded.listen(onEntryAdded);
       _onLocationChangedSubscription =
           _locationQuery.onChildChanged.listen(onEntryChanged);
-    }
+    
     
 
     // getCurrentLocation();
@@ -80,12 +78,12 @@ class _SharemapPageState extends State<SharemapPage> {
 
     setState(() {});
     if (_sharelocationList.length == 0) {
-      LocationDataNew todo =
-          new LocationDataNew(lat, lang, widget.userId, widget.user.email);
+      RecentLocationDataNew todo =
+          new RecentLocationDataNew(lat, lang, widget.shareuserid, widget.user.email,widget.userId);
       //  _database.reference().child("location").push().set(todo.toJson());
       _database
           .reference()
-          .child("shareddata")
+          .child("Recentshareddata")
           .child(widget.userId)
           .set(todo.toJson());
     } else {
@@ -96,9 +94,9 @@ class _SharemapPageState extends State<SharemapPage> {
   updateLocationItem(double lat, double lang) {
     //Toggle completed
     String todoId = _sharelocationList[0].key;
-    LocationDataNew todo =
-        new LocationDataNew(lat, lang, widget.userId, widget.user.email);
-    _database.reference().child("shareddata").child(todoId).set(todo.toJson());
+    RecentLocationDataNew todo =
+        new RecentLocationDataNew(lat, lang, widget.shareuserid, widget.user.email,widget.userId);
+    _database.reference().child("Recentshareddata").child(todoId).set(todo.toJson());
   }
 
   void databaseHandling() {
@@ -188,14 +186,14 @@ dbRef.onValue.listen((event) {
 
     setState(() {
       _sharelocationList[_sharelocationList.indexOf(oldEntry)] =
-          LocationDataNew.fromSnapshot(event.snapshot);
+          RecentLocationDataNew.fromSnapshot(event.snapshot);
     });
   }
 
   onEntryAdded(Event event) {
     //if (_locationList.length == 0) {
     setState(() {
-      _sharelocationList.add(LocationDataNew.fromSnapshot(event.snapshot));
+      _sharelocationList.add(RecentLocationDataNew.fromSnapshot(event.snapshot));
     });
     // }
   }

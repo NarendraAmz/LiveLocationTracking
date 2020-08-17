@@ -21,6 +21,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:flutter_maps/models/todo.dart';
+import 'package:platform_action_sheet/platform_action_sheet.dart';
 
 void main() => runApp(MyApp());
 
@@ -250,7 +251,9 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       Uint8List imageData = await getMarker();
       var location = await _locationTracker.getLocation();
-
+     print(location);
+      print(location.latitude);
+      print(location.longitude);
       updateMarkerAndCircle(location, imageData);
 
       if (_locationSubscription != null) {
@@ -262,12 +265,12 @@ class _MyHomePageState extends State<MyHomePage> {
             addLocationToRecentsList(
               newLocalData.latitude, newLocalData.longitude);
         if (_controller != null) {
-          _controller.animateCamera(CameraUpdate.newCameraPosition(
+          _controller.moveCamera(CameraUpdate.newCameraPosition(
               new CameraPosition(
                   bearing: 192.8334901395799,
                   target: LatLng(newLocalData.latitude, newLocalData.longitude),
                   tilt: 0,
-                  zoom: 18.00)));
+                  zoom: 15.00)));
           addNewLocationItem(newLocalData.latitude, newLocalData.longitude);
           updateMarkerAndCircle(newLocalData, imageData);
         }
@@ -352,6 +355,7 @@ LocationDataNew todo =
   }
 
   share() async {
+    Navigator.pop(context);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -374,9 +378,10 @@ LocationDataNew todo =
   }
 
   sharedlist() async {
+    print(widget.userId);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => TabHomePage()),
+      MaterialPageRoute(builder: (context) => TabHomePage(userId :widget.userId,)),
     );
   }
  
@@ -385,28 +390,19 @@ LocationDataNew todo =
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Data'),
+        title: Text('Map View'),
         actions: <Widget>[
-          new FlatButton(
-              // child: new Text('Logout',
-              //     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-              child: new Icon(
-                Icons.exit_to_app,
-                color: Colors.white,
-                size: 24.0,
-                // semanticLabel: 'Text to announce in accessibility modes',
-              ),
-              onPressed: signOut),
-          new FlatButton(
-              // child: new Text('Share',
-              //     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-              child: new Icon(
-                Icons.share,
-                color: Colors.white,
-                size: 24.0,
-                // semanticLabel: 'Text to announce in accessibility modes',
-              ),
-              onPressed: share),
+          
+          // new FlatButton(
+          //     // child: new Text('Share',
+          //     //     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+          //     child: new Icon(
+          //       Icons.share,
+          //       color: Colors.white,
+          //       size: 24.0,
+          //       // semanticLabel: 'Text to announce in accessibility modes',
+          //     ),
+          //     onPressed: share),
           new FlatButton(
               // child: new Text('List',
               //     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
@@ -427,6 +423,16 @@ LocationDataNew todo =
                 // semanticLabel: 'Text to announce in accessibility modes',
               ),
               onPressed: sharedlist),
+              new FlatButton(
+              // child: new Text('Logout',
+              //     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+              child: new Icon(
+                Icons.exit_to_app,
+                color: Colors.white,
+                size: 24.0,
+                // semanticLabel: 'Text to announce in accessibility modes',
+              ),
+              onPressed: signOut),
               
         ],
       ),
@@ -458,6 +464,11 @@ LocationDataNew todo =
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Align(
               alignment: Alignment.topRight,child: _buildRecentPlaceslistMapButton()),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Align(
+              alignment: Alignment.topRight,child: _buildShare()),
           ),
         ]))
         ]),
@@ -506,6 +517,74 @@ LocationDataNew todo =
           builder: (context) =>
               RecentLocationComponenet(userid: widget.userId)),
     );
+        },
+      ),
+    );
+  }
+  void shareIndividualUser()
+  {
+    Navigator.pop(context);
+   Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+             CheckboxListPage(userid: widget.userId,auth :widget.auth)),
+    );
+  }
+  void shareActionSheet()
+  {
+    PlatformActionSheet().displaySheet(
+                  context: context,
+                  message: Text("Select One Option"),
+                  actions: [
+                    ActionSheetAction(
+                      text: "Share Individual User",
+                      onPressed: () =>shareIndividualUser(),
+                      hasArrow: true,
+                    ),
+                    ActionSheetAction(
+                      text: "Share All Users",
+                      onPressed: () => share()
+                    ),
+                    ActionSheetAction(
+                      text: "Cancel",
+                      onPressed: () => Navigator.pop(context),
+                      isCancel: true,
+                      defaultAction: true,
+                    )
+                  ]
+    );
+  }
+
+  Widget _buildShare() {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.blue,
+      ),
+      child: GestureDetector(
+        child:  Icon(Icons.share),
+                     
+        onTap: () {
+    //       Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) =>
+    //           RecentLocationComponenet(userid: widget.userId)),
+    // );
+   // showDialog(
+                          // context: context,
+                          // builder: (_) => CheckboxListPage(userid: widget.userId,),
+                      //  );
+    //                     Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) =>
+    //          CheckboxListPage(userid: widget.userId,auth :widget.auth)),
+    // );
+    shareActionSheet();
         },
       ),
     );

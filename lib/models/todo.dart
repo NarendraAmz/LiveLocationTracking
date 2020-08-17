@@ -43,3 +43,28 @@ class LocationDataNew {
     return {"userId": userId, "lat": lat, "lang": lang, "email": email};
   }
 }
+class RecentLocationDataNew {
+  double lat;
+  double lang;
+  String key;
+  String userId;
+  String email;
+  String shareduserId;
+  
+
+  RecentLocationDataNew(this.lat, this.lang, this.userId, this.email,this.shareduserId);
+
+  RecentLocationDataNew.fromSnapshot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        userId = snapshot.value["userId"],
+         shareduserId = snapshot.value["shareduserId"],
+        email = snapshot.value["email"],
+        lat = snapshot.value["lat"],
+        lang = snapshot.value["lang"];
+
+
+  toJson() {
+    return {"userId": userId, "lat": lat, "lang": lang, "email": email, 
+    "shareduserId": shareduserId};
+  }
+}
