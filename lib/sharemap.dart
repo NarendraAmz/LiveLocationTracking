@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_maps/maproute.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_maps/models/todo.dart';
@@ -51,6 +52,7 @@ class _SharemapPageState extends State<SharemapPage> {
     _locationList = new List();
     
     if (widget.value == true) {
+      Fluttertoast.showToast(msg: 'Shared data Successfully.');
       _sharelocationList = new List();
       _locationQuery = _database.reference().child("shareddata")
        .orderByChild("userId")

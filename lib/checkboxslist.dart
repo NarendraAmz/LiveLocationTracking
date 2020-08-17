@@ -144,6 +144,7 @@ var newuserid = lists[selectedindex]['userId'];
     RecentLocationDataNew todo =
           new RecentLocationDataNew(lat, lang, widget.userid, user.email,newuserid);
    _database.reference().child("Recentshareddata").child(values['shareduserId']).set(todo.toJson());
+   Fluttertoast.showToast(msg: 'Shared Location Successfully.');
     Navigator.pop(context);
         }
         else
@@ -156,6 +157,7 @@ var newuserid = lists[selectedindex]['userId'];
           .child("Recentshareddata")
           .child(newuserid)
           .set(todo.toJson());
+           Fluttertoast.showToast(msg: 'Shared Location Successfully.');
            Navigator.pop(context);
         }
          
@@ -174,6 +176,7 @@ var newuserid = lists[selectedindex]['userId'];
           .child("Recentshareddata")
           .child(newuserid)
           .set(todo.toJson());
+          Fluttertoast.showToast(msg: 'Shared Location Successfully.');
            Navigator.pop(context);
       }
     });
@@ -187,7 +190,7 @@ var newuserid = lists[selectedindex]['userId'];
     //dbRef.orderByChild("userId").equalTo(widget.userid).once();
     return Scaffold(
         appBar: AppBar(
-          title: Text('List'),
+          title: Text('Users List'),
           actions: <Widget>[
           new FlatButton(
               // child: new Text('List',
